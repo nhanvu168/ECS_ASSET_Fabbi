@@ -11,13 +11,13 @@ app_name = "api"
 
 urlpatterns = (
     [
-        path("schema.json", SpectacularJSONAPIView.as_view(), name="json_schema"),
-        path(
-            "redoc/",
-            SpectacularRedocView.as_view(url_name="api:json_schema"),
-            name="redoc",
-        ),
-        path("user/", include(user_urls, namespace="user")),
-        path("user-files/", include(user_files_urls, namespace="user_files")),
+        # path("schema.json", SpectacularJSONAPIView.as_view(), name="json_schema"),
+        # path(
+        #     "redoc/",
+        #     SpectacularRedocView.as_view(url_name="api:json_schema"),
+        #     name="redoc",
+        # ),
+        # path("user/", include(user_urls, namespace="user")),
+        # path("user-files/", include(user_files_urls, namespace="user_files")),
     ]
 )

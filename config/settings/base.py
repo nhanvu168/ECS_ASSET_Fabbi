@@ -12,7 +12,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", "CHANGE_THIS_TO_SOMETHING_SECRET_IN_PRODUCT
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     "django.contrib.auth",
@@ -117,13 +117,13 @@ CHANNEL_LAYERS = {
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DATABASE_NAME", "d8eoqfkvfjm0e4"),
-        "USER": os.getenv("DATABASE_USER", "gyzrrdmqsfhhkr"),
-        "PASSWORD": os.getenv("DATABASE_PASSWORD", "ee988a9db356d81e22358a36a67e4a25e44881ae1155a2bc9a2f20f193aead81"),
-        "HOST": os.getenv("DATABASE_HOST", "ec2-34-236-87-247.compute-1.amazonaws.com"),
-        "PORT": os.getenv("DATABASE_PORT", "5432"),
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'ecs_dev',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306'
     }
 }
 
