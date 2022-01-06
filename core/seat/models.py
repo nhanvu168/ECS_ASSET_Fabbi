@@ -1,6 +1,6 @@
 from django.db import models
 
-from api.core.seat import EmployeeModel
+from core.employee.models import EmployeeModel
 
 
 class FloorModel(models.TextChoices):
@@ -15,14 +15,19 @@ class SeatModel(models.Model):
     Floor = [
         ('11', 'T11'),
         ('13', 'T13'),
-        ('14', 'T14')
+        ('14', 'T14'),
         ('15', 'T15'),
         ('17', 'T17'),
     ]
+    choice_seat = [
+        (0, 'Not assigned'),
+        (1, 'Assigned')
+    ]
     id = models.CharField(max_length=4, primary_key=True, null=False)
-    employee = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='seat')
+    employee = models.ForeignKey(EmployeeModel, on_delete=models.CASCADE, related_name='seat')
     position = models.CharField(max_length=10)
-    status = models.BooleanField(default=False, choices=((0, 'No'), (1, 'Yes')))
+    block_id = models.CharField(max_length=10)
+    is_seat_id_assigned = models.SmallIntegerField(choices=choice_seat, default=1)
     floor = models.CharField(max_length=20, choices=Floor, default='11')
 
     class Meta:
