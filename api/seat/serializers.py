@@ -4,27 +4,19 @@ from core.employee.models import EmployeeModel
 from api.exceptions import ValidationError404, ValidationError400
 
 
-class SeatViewSerializers(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-
-    class Meta:
-        model = SeatModel
-        fields = ['id', 'block_id', 'position', 'floor', 'employee']
-
-
 class AssignSeatSerializers(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
+    seat_id = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = SeatModel
-        fields = ['id', 'employee']
+        fields = ['seat_id', 'employee', 'status']
 
     def validated(self, data):
         if 'employee' in data:
-            employee = data['employee']
-            if employee is not None:
+            employee_id = data['employee']
+            if employee_id is not None:
                 try:
-                    employee = SeatModel.objects.get(employee=employee, floor=floor)
+                    employee = SeatModel.objects.get(employee=employee_id)
                     if employee is not None:
                         raise ValidationError400(detail="Employee had seated")
                 except:
@@ -32,7 +24,8 @@ class AssignSeatSerializers(serializers.ModelSerializer):
         return data
 
     def update(self, instance, validated_data):
-        instance.employee = validated_data.get('employee', instance.employee)
+        instance.employee_id = validated_data.get('employee', instance.employee_id)
+        instance.status = 1
         instance.save()
         return instance
 
@@ -40,14 +33,13 @@ class AssignSeatSerializers(serializers.ModelSerializer):
 class EmployeeView(serializers.ModelSerializer):
     class Meta:
         model = EmployeeModel
-        fields = ['id', 'name', 'department_code', 'job_title_code']
+        fields = ['id', 'name', 'department_code', 'job_title_code', 'company_code', 'other_email']
 
 
-class SeatDetail(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-    employees = EmployeeView(many=False)
+class SeatDetailSerializers(serializers.ModelSerializer):
+    employee = EmployeeView(many=False)
 
     class Meta:
         model = SeatModel
-        fields = ['id', 'block_id', 'position', 'floor', 'employees']
+        fields = ['seat_id', 'block', 'floor', 'employee']
 
